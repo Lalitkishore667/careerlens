@@ -7,24 +7,29 @@ from google import genai
 load_dotenv()
 
 
-class MatchAgent:
+class GapAgent:
     def __init__(self):
         self.client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
         self.model = "gemini-2.0-flash-lite"
     
     async def analyze(self, resume_text: str, job_description: str) -> dict:
-        """Analyze resume match against job description"""
+        """Analyze skill gaps between resume and job description"""
         prompt = f"""
-You are an expert career coach and ATS system.
+You are an expert career coach specializing in skill development.
 
-Analyze this resume against the job description and return ONLY a valid JSON response with exactly this format:
+Analyze the skill gaps between this resume and job description. Return ONLY a valid JSON response with exactly this format:
 {{
-    "match_score": <number between 0-100>,
-    "matched_skills": [<list of skills that match>],
-    "missing_skills": [<list of skills missing from resume>],
-    "experience_match": "<Strong/Moderate/Weak>",
-    "summary": "<2-3 sentence summary of the match>"
+    "gaps": [
+        {{
+            "skill": "<skill name>",
+            "importance": "<Critical/High/Medium>",
+            "how_to_learn": "<brief 1-2 sentence explanation of how to learn this skill>",
+            "resources": ["<resource 1>", "<resource 2>", "<resource 3>"]
+        }}
+    ]
 }}
+
+Identify 5-8 key skill gaps. For each gap, provide practical learning resources (online courses, certifications, projects, etc.).
 
 RESUME:
 {resume_text}
@@ -54,17 +59,9 @@ Return ONLY the JSON, no extra text or markdown.
         except json.JSONDecodeError:
             # Return default structure if JSON parsing fails
             return {
-                "match_score": 0,
-                "matched_skills": [],
-                "missing_skills": [],
-                "experience_match": "Weak",
-                "summary": "Unable to parse response"
+                "gaps": []
             }
         except Exception as e:
             return {
-                "match_score": 0,
-                "matched_skills": [],
-                "missing_skills": [],
-                "experience_match": "Weak",
-                "summary": f"Error: {str(e)}"
+                "gaps": []
             }

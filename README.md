@@ -1,65 +1,95 @@
-# 🎯 CareerLens — AI-Powered Career Intelligence Platform
+# CareerLens — AI-Powered Career Intelligence Platform
 
-> Built with FastAPI, LangChain, and Google Gemini AI
+A full-stack AI web application that transforms your resume and job search journey. Upload your resume, paste a job description, and get a complete career intelligence report with match score, skill gaps, rewritten resume, and interview questions.
 
-## 🚀 What is CareerLens?
+## 🚀 Features
 
-CareerLens is an end-to-end AI platform that helps job seekers optimize their resume for any job description. Upload your resume, paste a job description, and get instant AI-powered insights.
-
-## ✨ Features
-
-- 📄 **Resume Parser** — Extracts text from PDF and DOCX resumes
-- 🎯 **AI Match Scorer** — Scores your resume against any job description (0-100%)
-- 🕳️ **Skill Gap Analyzer** — Identifies missing skills with learning roadmap
-- ✍️ **Resume Rewriter** — Rewrites bullet points to match job description
-- 🤖 **Interview Generator** — Generates role-specific interview questions
+- **Match Score**: Get an AI-calculated match percentage between your resume and the job description
+- **Skill Gap Analysis**: Identify missing skills with importance levels and learning resources
+- **Resume Rewriter**: Get AI-optimized resume bullets tailored to the job description
+- **Interview Prep**: 10 role-specific interview questions with difficulty levels and hints
+- **Beautiful UI**: Premium dark theme with purple/cyan gradients, glassmorphism, and smooth animations
+- **Session-based Storage**: Resume persists across API calls within a session
 
 ## 🛠️ Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Backend | FastAPI, Python |
-| AI Engine | Google Gemini AI, LangChain |
-| Vector DB | FAISS |
-| Resume Parsing | PyPDF2, python-docx |
-| Deployment | Hugging Face Spaces |
+### Frontend
+- **React 19** + **Vite** - Fast, modern frontend framework
+- **TailwindCSS 4** - Utility-first CSS framework
+- **Framer Motion** - Smooth animations and transitions
+- **shadcn/ui** - Pre-built, customizable components
+- **TypeScript** - Type-safe development
 
-## ⚙️ Setup & Installation
+### Backend
+- **FastAPI** - Modern, fast Python web framework
+- **Google Gemini 2.0 Flash Lite** - AI engine for analysis
+- **PyPDF2 + python-docx** - Resume parsing
+
+## 📋 Project Structure
+
+```
+careerlens/
+├── backend/
+│   ├── agents/
+│   │   ├── match_agent.py
+│   │   ├── gap_agent.py
+│   │   ├── rewriter_agent.py
+│   │   └── interview_agent.py
+│   ├── parser.py
+│   ├── main.py
+│   └── uploads/
+│
+└── careerlens-frontend/
+    └── client/src/
+        ├── components/
+        ├── pages/
+        └── App.tsx
+```
+
+## 🚀 Getting Started
+
+### Backend Setup
 
 ```bash
-# Clone the repo
-git clone https://github.com/Lalitkishore667/careerlens.git
-cd careerlens
+cd careerlens/backend
+pip install fastapi uvicorn google-genai python-dotenv PyPDF2 python-docx python-multipart
+```
 
-# Create virtual environment
-python3 -m venv venv
-source venv/bin/activate
+Create `.env` file:
+```
+GEMINI_API_KEY=your_api_key
+```
 
-# Install dependencies
-pip install -r requirements.txt
+Run:
+```bash
+python main.py
+```
 
-# Add your Gemini API key
-echo "GEMINI_API_KEY=your_key_here" > backend/.env
+### Frontend Setup
 
-# Run the server
-cd backend
-uvicorn main:app --reload
+```bash
+cd careerlens-frontend
+pnpm install
+pnpm dev
 ```
 
 ## 📡 API Endpoints
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/` | Health check |
-| POST | `/upload-resume` | Upload PDF/DOCX resume |
-| POST | `/match` | Match resume to job description |
+- `POST /upload-resume` - Upload resume file
+- `POST /match` - Calculate match score
+- `POST /gap-analysis` - Analyze skill gaps
+- `POST /rewrite-resume` - Generate rewritten bullets
+- `POST /interview-questions` - Generate interview questions
+- `POST /full-analysis` - Run all analyses in parallel
 
-## 🎯 Built For
+## 🎨 Design
 
-This project was built as part of targeting **Salesforce's Futureforce** program — demonstrating real-world agentic AI development skills.
+Premium Tech SaaS aesthetic with dark theme, purple/cyan gradients, glassmorphism, and smooth Framer Motion animations.
 
-## 👨‍💻 Author
+## 👨‍💻 Developer
 
-**Lalit Kishore** — B.Tech AI & Data Science
-- GitHub: [@Lalitkishore667](https://github.com/Lalitkishore667)
-- LinkedIn: [Lalit Kishore](https://linkedin.com/in/lalitkishore667)
+**Lalit Kishore** - B.Tech AI & Data Science, Velammal Institute of Technology, Chennai
+
+---
+
+Built with React, FastAPI, and Google Gemini AI

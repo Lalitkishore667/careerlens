@@ -7,24 +7,34 @@ from google import genai
 load_dotenv()
 
 
-class MatchAgent:
+class InterviewAgent:
     def __init__(self):
         self.client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
         self.model = "gemini-2.0-flash-lite"
     
     async def analyze(self, resume_text: str, job_description: str) -> dict:
-        """Analyze resume match against job description"""
+        """Generate interview questions based on job description and resume"""
         prompt = f"""
-You are an expert career coach and ATS system.
+You are an expert interview coach and hiring manager.
 
-Analyze this resume against the job description and return ONLY a valid JSON response with exactly this format:
+Generate 10 role-specific interview questions based on the resume and job description. Return ONLY a valid JSON response with exactly this format:
 {{
-    "match_score": <number between 0-100>,
-    "matched_skills": [<list of skills that match>],
-    "missing_skills": [<list of skills missing from resume>],
-    "experience_match": "<Strong/Moderate/Weak>",
-    "summary": "<2-3 sentence summary of the match>"
+    "questions": [
+        {{
+            "question": "<interview question>",
+            "hint": "<brief hint or approach to answer>",
+            "difficulty": "<Easy/Medium/Hard>",
+            "category": "<Technical/Behavioral/Experience>"
+        }}
+    ]
 }}
+
+Questions should:
+1. Be specific to the role and job description
+2. Reference the candidate's experience from the resume
+3. Mix technical, behavioral, and experience-based questions
+4. Range from Easy to Hard difficulty
+5. Help the candidate prepare thoroughly
 
 RESUME:
 {resume_text}
@@ -54,17 +64,9 @@ Return ONLY the JSON, no extra text or markdown.
         except json.JSONDecodeError:
             # Return default structure if JSON parsing fails
             return {
-                "match_score": 0,
-                "matched_skills": [],
-                "missing_skills": [],
-                "experience_match": "Weak",
-                "summary": "Unable to parse response"
+                "questions": []
             }
         except Exception as e:
             return {
-                "match_score": 0,
-                "matched_skills": [],
-                "missing_skills": [],
-                "experience_match": "Weak",
-                "summary": f"Error: {str(e)}"
+                "questions": []
             }
