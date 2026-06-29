@@ -16,7 +16,7 @@
     "postcss": "^8.4.0",
     "autoprefixer": "^10.4.0",
     "framer-motion": "^11.0.0",
-    "lucide-react": "^0.263.0",
+    "lucide-react": "^0.453.0",
     "sonner": "^1.7.4",
     "axios": "^1.6.0"
   }
